@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,8 @@ import lombok.Setter;
 @Setter
 public class User {
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @Column(name = "user_id")
   private Integer id;
 
   @Column(nullable = false)
@@ -26,7 +26,4 @@ public class User {
 
   public enum Role{moderator,publisher,non_authentified};
   private Role role;
-
-  @OneToOne(mappedBy = "article")
-    private Article article;
 }

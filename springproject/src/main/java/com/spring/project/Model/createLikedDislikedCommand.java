@@ -1,7 +1,5 @@
 package com.spring.project.Model;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class createArticleCommand {
-    private Integer author;
-    private String content;
-    private Date publishDate;
-
+public class createLikedDislikedCommand {
     
+    private Boolean love;
+    private Integer article;
+    private Integer user;
 }
