@@ -1,9 +1,13 @@
 package com.spring.project.Controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,5 +40,19 @@ public class UserController {
   public @ResponseBody Iterable<User> getAllUsers() {
     // This returns a JSON or XML with the users
     return userRepository.findAll();
+  }
+
+  @PutMapping(path="modify/{id}")
+  public @ResponseBody Object modifyUser(@PathVariable int id, @RequestBody createUserCommand arg) {
+    Optional<User> n=userRepository.findById(id);
+    if(n.isPresent()){
+    return userRepository.findById(id).map(user -> {
+      user.setName(arg.getName());
+      user.setPassword(arg.getPassword());
+      user.setRole(arg.getRole());
+      return userRepository.save(user);
+    });
+  }
+    return "Problème avec la requete";
   }
 }

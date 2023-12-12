@@ -8,5 +8,4 @@ import com.spring.project.Model.Article;
 // CRUD refers Create, Read, Update, Delete
 
 public interface ArticleRepository extends CrudRepository<Article, Integer> {
-
 }
