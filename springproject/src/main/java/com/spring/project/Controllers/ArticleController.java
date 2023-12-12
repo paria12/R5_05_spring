@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.project.Model.Article;
+import com.spring.project.Model.LikedDisliked;
 import com.spring.project.Model.createArticleCommand;
 import com.spring.project.Repository.ArticleRepository;
+import com.spring.project.Repository.LikedDislikedRepository;
 import com.spring.project.Repository.UserRepository;
 
 
@@ -27,6 +30,8 @@ public class ArticleController<U> {
   private ArticleRepository articleRepository;
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private LikedDislikedRepository likedDislikedRepository;
 
   @PostMapping(path="/add") // Map ONLY POST Requests
   public @ResponseBody String addNewArticle (@RequestBody createArticleCommand arg) {
@@ -58,4 +63,14 @@ public class ArticleController<U> {
       }
     return "Problème avec la requete";
   }
+
+  @DeleteMapping(path="delete/{id}")
+  public @ResponseBody String deleteArticle(@PathVariable int id){
+    Iterable<LikedDisliked> a = articleRepository.findLove(id);
+      for(LikedDisliked v : a){
+        likedDislikedRepository.deleteById(v.getId());
+      }
+      articleRepository.deleteById(id);
+      return "delete successfully";
+    }
 }
